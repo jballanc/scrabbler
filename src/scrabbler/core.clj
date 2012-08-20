@@ -12,6 +12,6 @@
 
 (defn -main [& args]
   (if (seq? args)
-    (main args bf/best-match)
+    (time (main args bf/best-match))
     (println "Usage: java -jar scrabbler.jar LETTERS")))
 
