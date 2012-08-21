@@ -10,11 +10,14 @@
   (str "EEEEEEEEEEEEAAAAAAAAAIIIIIIIIIOOOOOOOONNNNNNRRRRRRTTTTTTLLLLSSSSUUUUDDD"
        "DGGGBBCCMMPPFFHHVVWWYYKJXQZ"))
 
-(def dictionary
-  (split-lines (upper-case (slurp "/usr/share/dict/words"))))
+(def dictionary (memoize (fn
+  ([] (dictionary "/usr/share/dict/words"))
+  ([file] (split-lines (upper-case (slurp file)))))))
 
 (defn score [word]
-  (reduce (fn [total letter] (+ total (get points-per-letter letter)))
-          0
-          (seq (upper-case word))))
-
+  (let [word (upper-case word)
+        tally (fn [total letter]
+               (+ total (get points-per-letter letter)))]
+    (if (seq? word)
+      (reduce tally 0 word)
+      0)))

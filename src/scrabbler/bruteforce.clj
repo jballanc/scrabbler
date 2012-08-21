@@ -19,7 +19,7 @@
               ([]
                true)
               ([r c]
-               (and r (pos? c))))]
+               (and r (not (neg? c)))))]
       (r/reduce remaining? (r/map take-letters letter-freqs)))))
 
 (defn best-match [letters]
