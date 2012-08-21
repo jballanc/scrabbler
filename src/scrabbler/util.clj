@@ -15,9 +15,7 @@
   ([file] (split-lines (upper-case (slurp file)))))))
 
 (defn score [word]
-  (let [word (upper-case word)
+  (let [word (seq (upper-case word))
         tally (fn [total letter]
-               (+ total (get points-per-letter letter)))]
-    (if (seq? word)
-      (reduce tally 0 word)
-      0)))
+               (+ total (get points-per-letter letter 0)))]
+    (reduce tally 0 word)))
