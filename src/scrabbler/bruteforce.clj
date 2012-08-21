@@ -12,7 +12,7 @@
 
 (defn possible-with? [letters word]
   (let [letter-freqs (frequencies (upper-case letters))
-        word-lett-freqs (frequencies (seq (upper-case word)))]
+        word-lett-freqs (frequencies (upper-case word))]
     (letfn [(take-letters [[lett freq]]
               (- freq (get word-lett-freqs lett 0)))
             (remaining?
