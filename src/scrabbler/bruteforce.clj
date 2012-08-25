@@ -10,17 +10,17 @@
     (require '[clojure.core :as r])
     (def fold reduce)))
 
-(defn possible-with? [letters word]
-  (let [letter-freqs (frequencies (upper-case letters))
+(defn possible-with? [tiles word]
+  (let [tile-freqs (frequencies (upper-case tiles))
         word-lett-freqs (frequencies (upper-case word))]
-    (letfn [(take-letters [[lett freq]]
-              (- freq (get word-lett-freqs lett 0)))
+    (letfn [(take-tiles [[lett freq]]
+              (- (get tile-freqs lett 0) freq))
             (remaining?
               ([]
                true)
-              ([r c]
-               (and r (not (neg? c)))))]
-      (r/reduce remaining? (r/map take-letters letter-freqs)))))
+              ([r n]
+               (and r n)))]
+      (r/reduce remaining? (r/map (comp not neg?) (r/map take-tiles word-lett-freqs))))))
 
 (defn best-match [letters]
   (letfn [(best
